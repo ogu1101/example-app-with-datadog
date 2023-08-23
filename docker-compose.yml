@@ -1,0 +1,57 @@
+version: '3'
+services:
+  app1:
+    container_name: app1
+    build:
+      context: ./
+    labels:
+      - com.datadoghq.tags.service="app1"
+      - com.datadoghq.tags.env="dev"
+      - com.datadoghq.tags.version="0.0.1"
+    ports:
+      - "8080:8080"
+    environment:
+      - DD_SERVICE=app1
+      - DD_ENV=dev
+      - DD_VERSION=0.0.1
+    depends_on:
+      - datadog-agent
+    networks:
+      - my-network
+
+  app2:
+    container_name: app2
+    build:
+      context: ./
+    labels:
+      - com.datadoghq.tags.service="app2"
+      - com.datadoghq.tags.env="dev"
+      - com.datadoghq.tags.version="0.0.1"
+    environment:
+      - DD_SERVICE=app2
+      - DD_ENV=dev
+      - DD_VERSION=0.0.1
+    depends_on:
+      - datadog-agent
+    networks:
+      - my-network
+
+  datadog-agent:
+    container_name: datadog-agent
+    image: datadog/agent:latest
+    ports:
+      - "8126:8126"
+    environment:
+      - DD_API_KEY=${DD_API_KEY}
+      - DD_SITE=datadoghq.com
+      - DD_APM_ENABLED=true
+      - DD_APM_NON_LOCAL_TRAFFIC=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+    networks:
+      - my-network
+
+networks:
+  my-network:
