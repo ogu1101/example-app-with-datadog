@@ -40,6 +40,7 @@ services:
     container_name: datadog-agent
     image: datadog/agent:latest
     ports:
+      - "8125:8125/udp"
       - "8126:8126"
     environment:
       - DD_API_KEY=${DD_API_KEY}
@@ -50,6 +51,7 @@ services:
       - DD_CONTAINER_EXCLUDE="name:datadog-agent"
       - DD_APM_ENABLED=true
       - DD_APM_NON_LOCAL_TRAFFIC=true
+      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /proc/:/host/proc/:ro
