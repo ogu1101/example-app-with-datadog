@@ -19,8 +19,4 @@ ENV DD_LOGS_INJECTION=true
 ENV DD_APPSEC_ENABLED=true
 ENV DD_IAST_ENABLED=true
 
-ENV DD_INTEGRATION_SPRING-WEB_ENABLED=true
-ENV DD_INTEGRATION_JAX-RS_ENABLED=true
-ENV DD_INTEGRATION_TOMCAT_ENABLED=true
-
 CMD ["java", "-javaagent:/dd-java-agent.jar", "-XX:FlightRecorderOptions=stackdepth=256","-jar", "/app.jar"]
