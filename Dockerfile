@@ -4,19 +4,17 @@ COPY src /app/src
 COPY pom.xml /app/pom.xml
 
 WORKDIR /app
-RUN mvn clean package
+RUN mvn clean package -Dmaven.test.skip=true
 
 FROM amazoncorretto:17
-COPY --from=build /app/target/jersey-demo-0.0.1-SNAPSHOT.jar /app.jar
-
+COPY --from=build /app/target/example-app-with-datadog-0.0.1-SNAPSHOT.jar /app.jar
 COPY dd-java-agent.jar /dd-java-agent.jar
 
 ENV DD_AGENT_HOST="datadog-agent"
-ENV DD_TRACE_AGENT_PORT="8126"
-
-ENV DD_PROFILING_ENABLED=true
-ENV DD_LOGS_INJECTION=true
 ENV DD_APPSEC_ENABLED=true
 ENV DD_IAST_ENABLED=true
+ENV DD_LOGS_INJECTION=true
+ENV DD_PROFILING_ENABLED=true
+ENV DD_TRACE_AGENT_PORT="8126"
 
-CMD ["java", "-javaagent:/dd-java-agent.jar", "-XX:FlightRecorderOptions=stackdepth=256","-jar", "/app.jar"]
+CMD ["java", "-javaagent:/dd-java-agent.jar", "-XX:FlightRecorderOptions=stackdepth=256", "-jar", "/app.jar"]

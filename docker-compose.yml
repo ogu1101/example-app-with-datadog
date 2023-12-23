@@ -1,36 +1,31 @@
 version: '3'
+
 services:
-  app1:
-    container_name: app1
+  app:
+    container_name: app
     build:
       context: ./
-    labels:
-      - com.datadoghq.tags.service="app1"
-      - com.datadoghq.tags.env="dev"
-      - com.datadoghq.tags.version="0.0.1"
     ports:
       - "8080:8080"
-    environment:
-      - DD_SERVICE=app1
-      - DD_ENV=dev
-      - DD_VERSION=0.0.1
     depends_on:
       - datadog-agent
+      - postgres
+    environment:
+      - DD_SERVICE=app
+      - DD_ENV=dev
+      - DD_VERSION=0.0.1
+    labels:
+      - com.datadoghq.tags.service="app"
+      - com.datadoghq.tags.env="dev"
+      - com.datadoghq.tags.version="0.0.1"
     networks:
       - my-network
 
-  app2:
-    container_name: app2
-    build:
-      context: ./
-    labels:
-      - com.datadoghq.tags.service="app2"
-      - com.datadoghq.tags.env="dev"
-      - com.datadoghq.tags.version="0.0.1"
+  postgres:
+    container_name: postgres
+    image: postgres:latest
     environment:
-      - DD_SERVICE=app2
-      - DD_ENV=dev
-      - DD_VERSION=0.0.1
+      - POSTGRES_PASSWORD=password
     depends_on:
       - datadog-agent
     networks:
@@ -42,6 +37,12 @@ services:
     ports:
       - "8125:8125/udp"
       - "8126:8126"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
     environment:
       - DD_API_KEY=${DD_API_KEY}
       - DD_SITE=datadoghq.com
@@ -52,12 +53,6 @@ services:
       - DD_APM_ENABLED=true
       - DD_APM_NON_LOCAL_TRAFFIC=true
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /proc/:/host/proc/:ro
-      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
     networks:
       - my-network
 
