@@ -8,7 +8,6 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - datadog-agent
       - postgres
     environment:
       - DD_SERVICE=app
@@ -24,20 +23,19 @@ services:
   postgres:
     container_name: postgres
     image: postgres:latest
+    volumes:
+      - ./init-user-db.sql:/docker-entrypoint-initdb.d/init-user-db.sql:ro
+    command: [ -c, shared_preload_libraries=pg_stat_statements, -c, track_activity_query_size=4096 ]
     environment:
       - DD_SERVICE=postgres
       - DD_ENV=dev
       - DD_VERSION=latest
-      - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=datadog
     labels:
       - com.datadoghq.ad.check_names=["postgres"]
       - com.datadoghq.ad.init_configs=[{}]
-      - com.datadoghq.ad.instances=[{"host":"%%host%%", "port":5432, "username":"datadog", "password":"password"}]
+      - com.datadoghq.ad.instances=[{"dbm":"true", "host":"%%host%%", "port":5432, "username":"datadog", "password":"password"}]
       - com.datadoghq.ad.logs=[{"source":"postgresql", "service":"postgres"}]
-    depends_on:
-      - datadog-agent
     networks:
       - my-network
 
