@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   app:
     container_name: app
     build:
@@ -25,7 +26,11 @@ services:
     image: postgres:latest
     ports:
       - "5432:5432"
-    command: [ -c, shared_preload_libraries=pg_stat_statements, -c, track_activity_query_size=4096 ]
+    command:
+      - "-c"
+      - "shared_preload_libraries=pg_stat_statements"
+      - "-c"
+      - "track_activity_query_size=4096"
     volumes:
       - ./init-user-db.sql:/docker-entrypoint-initdb.d/init-user-db.sql:ro
     environment:
@@ -53,6 +58,7 @@ services:
       - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
+      - /etc/passwd:/etc/passwd:ro
     environment:
       - DD_API_KEY=${DD_API_KEY}
       - DD_SITE=datadoghq.com
@@ -63,6 +69,7 @@ services:
       - DD_APM_ENABLED=true
       - DD_APM_NON_LOCAL_TRAFFIC=true
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+      - DD_PROCESS_AGENT_ENABLED=true
     networks:
       - my-network
 
@@ -74,6 +81,23 @@ services:
       - "50000:50000"
     volumes:
       - ${HOME}/jenkins_home:/var/jenkins_home
+      - ./dd-java-agent.jar:/var/jenkins_home/dd-java-agent.jar
+    environment:
+      - DD_SERVICE=app
+      - DD_ENV=ci
+      - DD_VERSION=latest
+      - DATADOG_JENKINS_PLUGIN_REPORT_WITH=DSD
+      - DATADOG_JENKINS_PLUGIN_TARGET_HOST=datadog-agent
+      - DATADOG_JENKINS_PLUGIN_TARGET_TRACE_COLLECTION_PORT=8126
+      - DATADOG_JENKINS_PLUGIN_ENABLE_CI_VISIBILITY=true
+      - DATADOG_JENKINS_PLUGIN_CI_VISIBILITY_CI_INSTANCE_NAME=jenkins
+      - DD_CI_HOSTNAME=jenkins
+      - DD_CIVISIBILITY_ENABLED=true
+      - DD_TRACER_FOLDER=/var/jenkins_home/dd-java-agent.jar
+      - DD_TRACE_AGENT_URL=http://datadog-agent:8126
+      - MAVEN_OPTS=-javaagent:$DD_TRACER_FOLDER/dd-java-agent.jar
+    labels:
+      - com.datadoghq.ad.logs=[{"source":"jenkins", "service":"jenkins"}]
     networks:
       - my-network
 

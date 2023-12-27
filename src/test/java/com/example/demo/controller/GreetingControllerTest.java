@@ -67,4 +67,18 @@ public class GreetingControllerTest {
                         is(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(content().json(expected));
     }
+
+    @Test
+    @DisplayName("異常系テスト")
+    public void testCreateGreetingError() throws Exception {
+        GreetingEntity greeting = new GreetingEntity();
+        greeting.setTarget("Mari");
+        String requestBody = objectMapper.writeValueAsString(greeting);
+
+        this.mockMvc.perform(post("/greeting")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
 }

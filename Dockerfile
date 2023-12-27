@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM maven:3.9.3-amazoncorretto-17 AS build
+FROM maven:3-amazoncorretto-17 AS build
 
 # Copy source code and POM file
 COPY src /app/src
