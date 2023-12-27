@@ -66,5 +66,16 @@ services:
     networks:
       - my-network
 
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:latest
+    ports:
+      - "8888:8080"
+      - "50000:50000"
+    volumes:
+      - ${HOME}/jenkins_home:/var/jenkins_home
+    networks:
+      - my-network
+
 networks:
   my-network:
