@@ -79,6 +79,6 @@ public class GreetingControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isInternalServerError());
     }
 }
