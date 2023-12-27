@@ -4,6 +4,16 @@
 
 This repository contains a Java-based application built on the Spring Boot framework, serving as a verification environment for Datadog support operations. The application exposes a REST API and registers data into a PostgreSQL container.
 
+## Prerequisites
+
+Before running the Datadog Agent and the application, ensure the following configurations:
+
+1. Set Datadog API Key in the `.env` file:
+   - Update the `DD_API_KEY` in the `.env` file with your Datadog API Key.
+
+2. Configure Datadog API Key in `application.properties`:
+   - Update the `management.datadog.metrics.export.apiKey` in the `application.properties` file with your Datadog API Key.
+
 ## Features Enabled
 
 ### Datadog Observability
