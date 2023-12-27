@@ -167,6 +167,15 @@
                 </dependencies>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>${profile.resources.directory}</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
 
 </project>
