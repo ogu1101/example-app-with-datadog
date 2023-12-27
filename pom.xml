@@ -23,17 +23,6 @@
         <java.version>17</java.version>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>development</id>
-            <properties>
-                <profile.resources.directory>
-                    src/main/resources
-                </profile.resources.directory>
-            </properties>
-        </profile>
-    </profiles>
-
     <!-- Project Dependencies -->
     <dependencies>
         <!-- Spring Boot Starters -->
@@ -167,15 +156,6 @@
                 </dependencies>
             </plugin>
         </plugins>
-
-        <resources>
-            <resource>
-                <directory>${profile.resources.directory}</directory>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
     </build>
 
 </project>
