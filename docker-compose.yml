@@ -26,11 +26,7 @@ services:
     image: postgres:latest
     ports:
       - "5432:5432"
-    command:
-      - "-c"
-      - "shared_preload_libraries=pg_stat_statements"
-      - "-c"
-      - "track_activity_query_size=4096"
+    command: [ -c, shared_preload_libraries=pg_stat_statements, -c, track_activity_query_size=4096 ]
     volumes:
       - ./init-user-db.sql:/docker-entrypoint-initdb.d/init-user-db.sql:ro
     environment:
