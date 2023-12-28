@@ -57,9 +57,9 @@ curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "targ
 ## アプリケーションについて
 
 - このリポジトリに含まれるアプリケーションは、Java で記述された Web サービスです。
-- Web フレームワークとして、Spring Bootを使用しています。
+- Web フレームワークとして、Spring Boot を使用しています。
 - HTTP リクエストの内容を PostgreSQL に登録します。 
-- ログは、Datadog でパースされやすいように、JSON 形式で出力されるように設定しています。
+- ログは、Datadog でパースされるように、JSON 形式で出力するように設定しています。
 
 ## Jenkins について
 

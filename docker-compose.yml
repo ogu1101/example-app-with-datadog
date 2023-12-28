@@ -80,8 +80,8 @@ services:
       - "8888:8080"
       - "50000:50000"
     volumes:
-      - ${HOME}/jenkins_home:/var/jenkins_home
-      - ./dd-java-agent.jar:/var/jenkins_home/dd-java-agent.jar
+      - ${HOME}/jenkins_home:/var/jenkins_home:rw
+      - ./dd-java-agent.jar:/var/jenkins_home/dd-java-agent.jar:ro
     environment:
       - DD_SERVICE=app
       - DD_ENV=ci
