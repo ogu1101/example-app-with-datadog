@@ -1,51 +1,35 @@
-# Example App with Datadog
+# Datadog を使用したサンプルアプリケーション
 
-## Overview
+## 概要
 
-This repository contains a Java-based application built on the Spring Boot framework, serving as a verification environment for Datadog support operations. The application exposes a REST API and registers data into a PostgreSQL container.
+このリポジトリには、以下のコンテナが含まれています。
 
-## Prerequisites
+- アプリケーション（ Web サービス）
+- Datadog Agent
+- PostgreSQL
+- Jenkins
 
-Before running the Datadog Agent and the application, ensure the following configurations:
+## 前提
 
-1. Set Datadog API Key in the `.env` file:
-   - Update the `DD_API_KEY` in the `.env` file with your Datadog API Key.
+1. `.env` ファイルの `DD_API_KEY` に Datadog の API Key を設定してください。
 
-2. Configure Datadog API Key in `application.properties`:
-   - Update the `management.datadog.metrics.export.apiKey` in the `application.properties` file with your Datadog API Key.
+2. `src/main/resources/application.properties` ファイルの `management.datadog.metrics.export.apiKey` に Datadog の API Key を設定してください。
 
-## Features Enabled
+## 有効化されている Datadog の機能
 
-### Datadog Observability
+- ライブプロセス
+- APM
+- Continuous Profiler
+- ログ管理（トレースと接続済み）
+- ASM
+- CI Visibility
+- DBM（トレースと接続済み）
 
-| Feature                              | Description                                             |
-| ------------------------------------ | ------------------------------------------------------- |
-| **Log Management**                   | JSON-formatted logs for enhanced readability.           |
-| **APM (Application Performance Monitoring)** | Comprehensive monitoring of application performance. |
-| **Continuous Profiler**              | Utilizes the Continuous Profiler feature, including ASM (Assembly) support. |
-| **DBM (Database Monitoring)**        | APM and Database Monitoring are correlated for holistic insights. |
-| **CI Visibility**                    | Integration with CI (Continuous Integration) for visibility into the build process. |
-| **Link Source Code**                 | Seamless debugging experience with source code linkage. |
-| **Process Monitoring**               | Datadog's process monitoring functionality is also enabled. |
+## ビルドと実行
 
-## Containerized Services
+### アプリケーションコンテナイメージのビルド
 
-The entire environment is containerized using Docker for easy deployment and management:
-
-- **Services:**
-  - Application
-  - PostgreSQL
-  - Datadog Agent
-  - Jenkins
-
-- **Configuration:**
-  - Managed through `docker-compose.yaml`.
-
-## Build and Execution
-
-### Building the Application
-
-Use the following command to build the application:
+Dockerfile が存在するディレクトリで、以下のコマンドを実行してください。
 
 ```bash
 docker build . \
@@ -54,34 +38,35 @@ docker build . \
     --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
 ```
 
-### Running the Containers
+### コンテナの起動
 
-Execute the following command to run the containers:
+docker-compose.yml が存在するディレクトリで、以下のコマンドを実行してください。
 
 ```bash
 docker-compose up -d
 ```
 
-### Sending an HTTP Request
+### HTTP リクエストの送信
 
-To send an HTTP request to the application, use the following command:
+アプリケーションコンテナに HTTP リクエストを送信するには、以下のコマンドを実行してください。
 
 ```bash
 curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' 127.0.0.1:8080/greeting
 ```
 
-## Jenkins Integration
+## アプリケーションについて
 
-**Note:**
+- このリポジトリに含まれるアプリケーションは、Java で記述された Web サービスです。
+- Web フレームワークとして、Spring Bootを使用しています。
+- HTTP リクエストの内容を PostgreSQL に登録します。 
+- ログは、Datadog でパースされやすいように、JSON 形式で出力されるように設定しています。
 
-- Jenkins integration requires manual installation of the Datadog plugin and configuration of CI jobs.
+## Jenkins について
 
-Jenkins is seamlessly integrated into the environment. Access Jenkins using the following URL:
+### URL
 
 http://localhost:8888
 
-***
+### 注意事項
 
-Feel free to explore, test, and contribute to this repository for Datadog support validation purposes.
-
-README created by ChatGPT.
+- [Jenkins への Datadog プラグイン導入](https://docs.datadoghq.com/ja/continuous_integration/pipelines/jenkins/?tab=linux#datadog-jenkins-%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)、Jenkins への Maven 導入、および Jenkins ジョブの作成は、手動で行う必要があります。
