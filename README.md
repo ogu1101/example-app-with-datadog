@@ -15,8 +15,8 @@
 - Web フレームワークとして、Spring Boot を使用しています。
 - HTTP リクエストの内容を PostgreSQL に登録します。
 - ログは、Datadog でパースされるように JSON 形式で出力するように設定しています。
-- Jenkins ジョブから`mvn test` コマンドを実行することにより、単体テストを実行できます。
-- DB接続設定の都合により、ローカルホストで単体テストを実行できません。
+- Jenkins ジョブから `mvn test` コマンドを実行することにより、単体テストを実行できます。
+- DB 接続設定の都合により、ローカルホストで単体テストを実行できません。
 
 ## 有効化されている Datadog 機能
 
@@ -24,7 +24,7 @@ CI Visibility 以外は、手動作業なしに以下の Datadog 機能が有効
 
 CI Visibility
 を有効化するには、手動で [Jenkins への Datadog プラグイン導入](https://docs.datadoghq.com/ja/continuous_integration/pipelines/jenkins/?tab=linux#datadog-jenkins-%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
-、Jenkins への Maven 導入、および Jenkins ジョブの作成を行う必要があります。
+、および Jenkins ジョブの作成を行う必要があります。
 
 - ライブプロセス
 - APM
