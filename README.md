@@ -20,7 +20,7 @@
 
 ## 有効化されている Datadog 機能
 
-CI Visibility 以外は、手動作業なしに以下の Datadog 機能が有効化されています。
+CI Visibility 以外は、手動作業なしに以下の Datadog 機能が有効化されます。
 
 CI Visibility
 を有効化するには、手動で [Jenkins への Datadog プラグイン導入](https://docs.datadoghq.com/ja/continuous_integration/pipelines/jenkins/?tab=linux#datadog-jenkins-%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
