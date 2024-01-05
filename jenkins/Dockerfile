@@ -25,7 +25,7 @@ RUN apt-get update \
 
 # Download Datadog Java Tracer
 RUN wget -P / -O dd-java-agent.jar 'https://dtdg.co/latest-java-tracer' \
-    && chown jenkins /dd-java-agent.jar
+    && chown jenkins:jenkins /dd-java-agent.jar
 
 # Switch back to the Jenkins user for subsequent operations
 USER jenkins
