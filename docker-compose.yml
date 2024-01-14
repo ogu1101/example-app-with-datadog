@@ -11,6 +11,8 @@ services:
     depends_on:
       - postgres
     environment:
+      - DB_ADDRESS=${DB_ADDRESS}
+      - DD_API_KEY=${DD_API_KEY}
       - DD_SERVICE=app
       - DD_ENV=dev
       - DD_VERSION=0.0.1
@@ -79,6 +81,7 @@ services:
     volumes:
       - ${HOME}/jenkins_home:/var/jenkins_home:rw
     environment:
+      - DB_ADDRESS=${DB_ADDRESS}
       - DD_SERVICE=app
       - DD_ENV=ci
       - DD_VERSION=latest
