@@ -37,10 +37,7 @@ CI Visibility
 
 ### 事前作業
 
-1. `.env` ファイルの `DD_API_KEY` に Datadog の API キーを設定してください。
-
-2. `src/main/resources/application.properties` ファイルの `management.datadog.metrics.export.apiKey` に Datadog の API
-   キーを設定してください。
+`.env` ファイルの `DD_API_KEY` に Datadog の API キーを設定してください。
 
 ### アプリケーションコンテナイメージのビルド
 
