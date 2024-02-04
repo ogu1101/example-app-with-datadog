@@ -13,9 +13,9 @@ output "kubernetes_cluster_name" {
   description = "GKE Cluster Name"
 }
 
-output "artifact_registry_repository_name" {
-  value       = google_artifact_registry_repository.my-repo.name
-  description = "Artifact Registry Repository Name"
+output "gke_global_ip_address_name" {
+  value       = google_compute_global_address.gke_global_ip_address.name
+  description = "GKE Global IP Address Name"
 }
 
 output "cloud_sql_instance_name" {
@@ -28,7 +28,7 @@ output "service_account_id" {
   description = "Service Account ID"
 }
 
-output "global_ip_address_name" {
-  value       = google_compute_global_address.default.name
-  description = "Global IP Address Name"
+output "artifact_registry_repository_name" {
+  value       = google_artifact_registry_repository.my-repo.name
+  description = "Artifact Registry Repository Name"
 }

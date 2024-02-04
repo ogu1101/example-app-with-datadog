@@ -23,6 +23,6 @@ resource "google_compute_firewall" "inbound" {
   }
 }
 
-resource "google_compute_global_address" "default" {
+resource "google_compute_global_address" "gke_global_ip_address" {
   name = "${var.env}-ip-address"
 }
