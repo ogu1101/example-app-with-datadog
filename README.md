@@ -4,7 +4,7 @@
 
 このリポジトリには、Java アプリケーション（ Web サービス）のソースコードが含まれています。
 
-その アプリケーションを Docker Compose または Google Kubernetes Engine（ GKE ）を使用して実行するためのソースコードも含まれています。
+そのアプリケーションを Docker Compose または Google Kubernetes Engine（ GKE ）を使用して実行するためのソースコードも含まれています。
 
 また、アプリケーション以外に以下のコンテナおよびサービスも実行されます。
 
@@ -24,9 +24,7 @@
 
 CI Visibility 以外は、手動作業なしに以下の Datadog 機能が有効化されます。
 
-CI Visibility
-を有効化するには、手動で [Jenkins への Datadog プラグイン導入](https://docs.datadoghq.com/ja/continuous_integration/pipelines/jenkins/?tab=linux#datadog-jenkins-%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
-、および Jenkins ジョブの作成を行う必要があります。
+CI Visibility を有効化するには、手動で [Jenkins への Datadog プラグイン導入](https://docs.datadoghq.com/ja/continuous_integration/pipelines/jenkins/?tab=linux#datadog-jenkins-%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)、および Jenkins ジョブの作成を行う必要があります。
 
 - Live Processes
 - Application Performance Monitoring
@@ -42,9 +40,7 @@ CI Visibility
 
 ### 前提条件
 
-- Docker
-  をインストールしてください。インストール方法については、こちらの[ドキュメント](https://docs.docker.com/engine/install/)
-  を参照してください。
+- Docker をインストールしてください。インストール方法については、こちらの[ドキュメント](https://docs.docker.com/engine/install/)を参照してください。
 - このリポジトリの Datadog Agent コンテナは、Docker Compose を使用する場合、Mac OS でのみ実行可能です。
 
 ### 事前作業
@@ -64,7 +60,7 @@ docker build . \
 
 ### コンテナの起動
 
-docker-compose.yml が存在するディレクトリで以下のコマンドを実行してください。
+compose.yaml が存在するディレクトリで以下のコマンドを実行してください。
 
 ```bash
 docker-compose up -d
@@ -93,13 +89,9 @@ docker-compose down
 ### 前提条件
 
 - こちらの[ドキュメント](https://docs.docker.com/engine/install/)を参考に Docker をインストールしてください。
--
-マルチプラットフォームイメージを作成するために、こちらの[ドキュメント](https://docs.docker.com/desktop/containerd/#turn-on-the-containerd-image-store-feature)
-を参考に Docker Desktop の `Use containerd for pulling and storing images` を有効化してください。
+- マルチプラットフォームコンテナイメージを作成するために、こちらの[ドキュメント](https://docs.docker.com/desktop/containerd/#turn-on-the-containerd-image-store-feature)を参考に Docker Desktop の `Use containerd for pulling and storing images` を有効化してください。
 - こちらの[ドキュメント](https://helm.sh/ja/)を参考に `Helm` をインストールしてください。
--
-その他の前提条件については、こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke?utm_medium=WEB_IO&in=terraform%2Fkubernetes&utm_content=DOCS&utm_source=WEBSITE&utm_offer=ARTICLE_PAGE#prerequisites)
-を参照してください。
+- その他の前提条件については、こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke?utm_medium=WEB_IO&in=terraform%2Fkubernetes&utm_content=DOCS&utm_source=WEBSITE&utm_offer=ARTICLE_PAGE#prerequisites)を参照してください。
 
 ### 事前作業
 
@@ -111,8 +103,7 @@ docker-compose down
 
 - `project_id` に Google Could のプロジェクト ID を設定してください。
 - Google Cloud リソース名の重複を避けるために、`env` に任意の値を設定してください。
-- こちらの[サイト](https://www.cman.jp/network/support/go_access.cgi)でグローバル IP
-  アドレスを確認し、`your_global_ip_address` にグローバル IP アドレスを設定してください。
+- こちらの[サイト](https://www.cman.jp/network/support/go_access.cgi)でグローバル IP アドレスを確認し、`your_global_ip_address` にグローバル IP アドレスを設定してください。
 
 ### Google Cloud リソースの作成
 
