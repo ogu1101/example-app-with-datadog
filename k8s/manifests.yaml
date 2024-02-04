@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    io.kompose.service: app
+    tags.datadoghq.com/env: "dev"
+    tags.datadoghq.com/service: "app"
+    tags.datadoghq.com/version: "0.0.1"
+spec:
+  selector:
+    matchLabels:
+      io.kompose.service: app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        io.kompose.service: app
+        tags.datadoghq.com/env: "dev"
+        tags.datadoghq.com/service: "app"
+        tags.datadoghq.com/version: "0.0.1"
+    spec:
+      serviceAccountName: ksa-cloud-sql
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
+      containers:
+        - name: app
+          # REPLACE ME
+          image: us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example-app-with-datadog-app:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: localhost
+            - name: DD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: datadog-secret
+                  key: api-key
+            - name: DD_ENV
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/env']
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/service']
+            - name: DD_VERSION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/version']
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:latest
+          args:
+            # If connecting from a VPC-native GKE cluster, you can use the
+            # following flag to have the proxy connect over private IP
+            # - "--private-ip"
+
+            - "--structured-logs"
+
+            - "--port=5432"
+            # REPLACE ME
+            - "datadog-sandbox:us-central1:shuhei-cloud-sql"
+
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              memory: "4Gi"
+              cpu: "1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app
+  labels:
+    io.kompose.service: app
+spec:
+  type: LoadBalancer
+  selector:
+    io.kompose.service: app
+  ports:
+    - name: "http"
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app
+  annotations:
+    # REPLACE ME
+    kubernetes.io/ingress.global-static-ip-name: shuhei-ip-address
+    kubernetes.io/ingress.class: gce
+  labels:
+    io.kompose.service: app
+spec:
+  defaultBackend:
+    service:
+      name: app
+      port:
+        number: 8080
