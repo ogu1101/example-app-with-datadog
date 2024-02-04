@@ -181,6 +181,8 @@ docker push us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example
 `k8s` ディレクトリで以下のコマンドを実行してください。
 
 ```bash
+gcloud container clusters get-credentials --zone ${region} ${kubernetes_cluster_name}
+
 helm repo add datadog https://helm.datadoghq.com
 
 helm install datadog-operator datadog/datadog-operator
@@ -194,6 +196,12 @@ kubectl annotate serviceaccount \
   iam.gke.io/gcp-service-account=${shuhei-service-account-id}@${project_id}.iam.gserviceaccount.com
 
 kubectl apply -f manifests.yaml
+```
+
+`gcloud container clusters get-credentials` コマンドの例は、以下のとおりです。
+
+```bash
+gcloud container clusters get-credentials --zone us-central1 shuhei-gke
 ```
 
 `kubectl annotate serviceaccount` コマンドの例は、以下のとおりです。
