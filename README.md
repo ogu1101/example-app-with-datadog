@@ -191,7 +191,7 @@ helm install datadog-operator datadog/datadog-operator
 
 kubectl create secret generic datadog-secret --from-literal api-key=XXXXX --from-literal app-key=XXXXX
 
-kubectl apply -f service-account.yaml -f datadog-agent.yaml
+kubectl apply -f datadog-agent.yaml -f service-account.yaml
 
 kubectl annotate serviceaccount \
   ksa-cloud-sql  \
@@ -236,6 +236,14 @@ curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "targ
 
 ```bash
 curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' 35.238.101.70:8080/greeting
+```
+
+### Kubernetes リソースの削除
+
+`k8s` ディレクトリで以下のコマンドを実行してください。
+
+```bash
+kubectl delete -f manifests.yaml -f service-account.yaml -f datadog-agent.yaml
 ```
 
 ### Google Cloud リソースの削除
