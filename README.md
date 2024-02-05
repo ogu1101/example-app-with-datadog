@@ -216,7 +216,7 @@ kubectl annotate serviceaccount \
 
 ### HTTP リクエストの送信
 
-`kubectl get service app` コマンドを実行してください。
+リクエスト送信先のグローバル IP アドレスを確認するために、`kubectl get service app` コマンドを実行してください。
 
 実行結果の例は、以下のとおりです。
 
@@ -226,7 +226,7 @@ NAME   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)          AGE
 app    LoadBalancer   10.187.247.149   35.238.101.70   8080:31303/TCP   38h
 ```
 
-上記の `EXTERNAL-IP` を以下コマンドの ${EXTERNAL-IP} に設定したうえで、以下コマンドを実行してください。
+以下コマンドの ${EXTERNAL-IP} を上記の `EXTERNAL-IP` に置換したうえで、以下コマンドを実行してください。
 
 ```bash
 curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' ${EXTERNAL-IP}:8080/greeting
