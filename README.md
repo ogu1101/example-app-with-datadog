@@ -195,7 +195,7 @@ kubectl apply -f datadog-agent.yaml -f service-account.yaml
 
 kubectl annotate serviceaccount \
   ksa-cloud-sql  \
-  iam.gke.io/gcp-service-account=${shuhei-service-account-id}@${project_id}.iam.gserviceaccount.com
+  iam.gke.io/gcp-service-account=${service_account_id}@${project_id}.iam.gserviceaccount.com
 
 kubectl apply -f manifests.yaml
 ```
