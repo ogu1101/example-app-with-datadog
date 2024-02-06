@@ -24,7 +24,7 @@
 
 CI Visibility 以外は、手動作業なしに以下の Datadog 機能が有効化されます。
 
-CI Visibility を有効化するには、手動で [Jenkins への Datadog プラグイン導入](https://docs.datadoghq.com/ja/continuous_integration/pipelines/jenkins/?tab=linux#datadog-jenkins-%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)と Jenkins ジョブの作成を行う必要があります。
+CI Visibility を有効化するには、手動で [Jenkins への Datadog プラグイン導入](https://docs.datadoghq.com/ja/continuous_integration/pipelines/jenkins/?tab=linux#datadog-jenkins-%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)および Jenkins ジョブの作成を行う必要があります。
 
 - Live Processes
 - Application Performance Monitoring
@@ -130,7 +130,7 @@ service_account_id = "shuhei-service-account-id"
 
 ### アプリケーションコンテナイメージのビルドとプッシュ
 
-`terraform apply` コマンドの実行結果をもとに以下のコマンドを修正してください。
+`terraform apply` コマンドの実行結果をもとに以下のコマンドを変更してください。
 
 Dockerfile が存在するディレクトリで以下のコマンドを実行してください。
 
@@ -176,7 +176,7 @@ docker push us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example
 
 ### Kubernetes リソースのデプロイ
 
-`terraform apply` コマンドの実行結果をもとに以下のコマンドを修正してください。
+`terraform apply` コマンドの実行結果をもとに以下のコマンドを変更してください。
 
 また、`api-key` には、Datadog の API キーを、`app-key` には、Datadog の APP キーを設定してください。
 
