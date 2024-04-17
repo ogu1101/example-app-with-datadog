@@ -46,7 +46,7 @@ services:
 
   datadog-agent:
     container_name: datadog-agent
-    image: datadog/agent:latest
+    image: gcr.io/datadoghq/agent:latest
     ports:
       - "8125:8125/udp"
       - "8126:8126"
@@ -55,7 +55,7 @@ services:
       - /proc/:/host/proc/:ro
       - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
+      # - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
       - /etc/passwd:/etc/passwd:ro
     environment:
       - DD_API_KEY=${DD_API_KEY}
