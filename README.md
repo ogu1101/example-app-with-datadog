@@ -93,8 +93,8 @@ docker-compose down
 - こちらの[ドキュメント](https://docs.docker.com/engine/install/)を参考に Docker をインストールしてください。
 - マルチプラットフォームコンテナイメージを作成するために、こちらの[ドキュメント](https://docs.docker.com/desktop/containerd/#turn-on-the-containerd-image-store-feature)を参考に Docker Desktop の `Use containerd for pulling and storing images` を有効化してください。
 - こちらの[ドキュメント](https://helm.sh/ja/)を参考に `Helm` をインストールしてください。
-- その他の前提条件については、こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke?utm_medium=WEB_IO&in=terraform%2Fkubernetes&utm_content=DOCS&utm_source=WEBSITE&utm_offer=ARTICLE_PAGE#prerequisites)を参照してください。
 - こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)を参考に `Terraform` をインストールしてください。
+- その他の前提条件については、こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke?utm_medium=WEB_IO&in=terraform%2Fkubernetes&utm_content=DOCS&utm_source=WEBSITE&utm_offer=ARTICLE_PAGE#prerequisites)を参照してください。
 
 ### 事前作業
 
