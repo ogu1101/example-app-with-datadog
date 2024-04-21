@@ -97,6 +97,7 @@ docker-compose down
 - こちらの[ドキュメント](https://helm.sh/ja/)を参考に `Helm` をインストールしてください。
 - こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)を参考に `Terraform` をインストールしてください。
 - その他の前提条件については、こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke?utm_medium=WEB_IO&in=terraform%2Fkubernetes&utm_content=DOCS&utm_source=WEBSITE&utm_offer=ARTICLE_PAGE#prerequisites)を参照してください。
+- こちらの[ドキュメント](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl?hl=ja#install_plugin)を参考に `gke-gcloud-auth-plugin` をインストールしてください。
 
 ### 事前作業
 
@@ -110,12 +111,15 @@ docker-compose down
 - Google Cloud リソース名の重複を避けるために、`env` に任意の値を設定してください。
 - こちらの[サイト](https://www.cman.jp/network/support/go_access.cgi)でグローバル IP アドレスを確認し、`your_global_ip_address` にグローバル IP アドレスを設定してください。
 
-### Kubernetes Engine API の有効化
+### 各種 Google Cloud API の有効化
 
 任意のディレクトリで以下のコマンドを実行してください。
 
 ```bash
-gcloud services enable container.googleapis.com
+gcloud services enable \
+    artifactregistry.googleapis.com \
+    container.googleapis.com \
+    sqladmin.googleapis.com
 ```
 
 ### Google Cloud リソースの作成

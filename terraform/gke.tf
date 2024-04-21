@@ -51,7 +51,7 @@ resource "google_container_node_pool" "primary_nodes" {
       env = var.env
     }
 
-    machine_type = "n2-standard-4"
+    machine_type = "e2-standard-2"
     tags         = ["gke-node", "${var.env}-gke"]
     metadata = {
       disable-legacy-endpoints = "true"
@@ -60,5 +60,7 @@ resource "google_container_node_pool" "primary_nodes" {
     workload_metadata_config {
       mode = "GKE_METADATA"
     }
+
+    disk_size_gb = 50
   }
 }

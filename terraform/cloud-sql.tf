@@ -7,7 +7,7 @@ resource "google_sql_database_instance" "main" {
   deletion_protection = false
 
   settings {
-    tier = "db-custom-4-15360"
+    tier = "db-custom-2-7680"
     ip_configuration {
       authorized_networks {
         name  = google_container_cluster.primary.name
