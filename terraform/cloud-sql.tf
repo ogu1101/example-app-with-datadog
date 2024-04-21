@@ -8,11 +8,19 @@ resource "google_sql_database_instance" "main" {
 
   settings {
     tier = "db-custom-2-7680"
+    availability_type = "REGIONAL"
+    
     ip_configuration {
       authorized_networks {
         name  = google_container_cluster.primary.name
         value = google_container_cluster.primary.endpoint
       }
+    }
+
+    backup_configuration {
+      enabled                        = true
+      point_in_time_recovery_enabled = true
+      start_time                     = "20:55"
     }
   }
 }

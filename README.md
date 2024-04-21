@@ -150,6 +150,8 @@ service_account_id = "shuhei-service-account-id"
 Dockerfile が存在するディレクトリで以下のコマンドを実行してください。
 
 ```bash
+gcloud auth configure-docker ${region}-docker.pkg.dev
+
 docker buildx build . \
     -t ${region}-docker.pkg.dev/${project_id}/${artifact_registry_repository_name}/example-app-with-datadog-app:latest \
     --platform linux/amd64,linux/arm64 \
@@ -162,6 +164,8 @@ docker push ${region}-docker.pkg.dev/${project_id}/${artifact_registry_repositor
 コマンドの例は、以下のとおりです。
 
 ```bash
+gcloud auth configure-docker us-central1-docker.pkg.dev
+
 docker buildx build . \
     -t us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example-app-with-datadog-app:latest \
     --platform linux/amd64,linux/arm64 \
@@ -276,3 +280,4 @@ terraform destroy
 - [Google Kubernetes Engine から Cloud SQL に接続する](https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine?hl=ja)
 - [基本的な本番環境クラスタ用にネットワークを構成する](https://cloud.google.com/kubernetes-engine/docs/tutorials/configure-networking?hl=ja)
 - [Google Cloud リソース別の Terraform 公式ページ](https://registry.terraform.io/providers/hashicorp/google/latest/docs)
+- [Cloud SQL で高可用性を有効または無効にする](https://cloud.google.com/sql/docs/postgres/configure-ha?hl=ja#terraform)
