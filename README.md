@@ -74,9 +74,11 @@ docker-compose up -d
 curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' 127.0.0.1:8080/greeting
 ```
 
-### Jenkins の URL
+### Jenkins
 
-http://localhost:8888
+Jenkins にアクセスするための URL は、http://localhost:8888 です。
+
+Jenkins にアクセスするためのユーザー名とパスワードは、Jenkins コンテナ起動時のログに出力されます。
 
 ### コンテナの停止
 
