@@ -110,6 +110,14 @@ docker-compose down
 - Google Cloud リソース名の重複を避けるために、`env` に任意の値を設定してください。
 - こちらの[サイト](https://www.cman.jp/network/support/go_access.cgi)でグローバル IP アドレスを確認し、`your_global_ip_address` にグローバル IP アドレスを設定してください。
 
+### Kubernetes Engine API の有効化
+
+任意のディレクトリで以下のコマンドを実行してください。
+
+```bash
+gcloud services enable container.googleapis.com
+```
+
 ### Google Cloud リソースの作成
 
 `terraform` ディレクトリで以下のコマンドを実行してください。
