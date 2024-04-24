@@ -13,6 +13,14 @@
 - Jenkins コンテナ（ Docker Compose の場合のみ）
 - Cloud SQL for PostgreSQL（ GKE の場合のみ）
 
+## アーキテクチャ （ Docker Compose ）
+
+![doc/architecture-localhost.drawio.png](doc/architecture-localhost.drawio.png)
+
+## アーキテクチャ （ GKE ）
+
+![doc/architecture-gke.drawio.png](doc/architecture-gke.drawio.png)
+
 ## アプリケーションについて
 
 - Web フレームワークとして、Spring Boot を使用しています。
@@ -36,7 +44,7 @@ CI Visibility を有効化するには、手動で [Jenkins への Datadog プ�
 - Network Performance Monitoring（ GKE の場合のみ）
 - Universal Service Monitoring（ GKE の場合のみ）
 
-## ビルドと実行（ Docker Compose を使用する場合）
+## ビルドと実行 （ Docker Compose を使用する場合）
 
 ### 前提条件
 
