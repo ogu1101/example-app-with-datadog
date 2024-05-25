@@ -205,7 +205,7 @@ docker push us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example
 
 `terraform apply` コマンドの実行結果をもとに以下のコマンドを変更してください。
 
-また、`api-key` には、Datadog の API キーを、`app-key` には、Datadog の APP キーを設定してください。
+また、`${API-KEY}` には、Datadog の API キーを、`${APP-KEY}` には、Datadog の APP キーを設定してください。
 
 `k8s` ディレクトリで以下のコマンドを実行してください。
 
@@ -216,7 +216,7 @@ helm repo add datadog https://helm.datadoghq.com
 
 helm install datadog-operator datadog/datadog-operator
 
-kubectl create secret generic datadog-secret --from-literal api-key=XXXXX --from-literal app-key=XXXXX
+kubectl create secret generic datadog-secret --from-literal api-key=${API-KEY} --from-literal app-key=${APP-KEY}
 
 kubectl apply -f datadog-agent.yaml -f service-account.yaml
 
