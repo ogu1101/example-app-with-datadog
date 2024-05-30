@@ -55,23 +55,12 @@ CI Visibility を有効化するには、手動で [Jenkins への Datadog プ�
 
 `.env` ファイルの `DD_API_KEY` に Datadog の API キーを設定してください。
 
-### アプリケーションコンテナイメージのビルド
-
-Dockerfile が存在するディレクトリで以下のコマンドを実行してください。
-
-```bash
-docker build . \
-    -t example-app-with-datadog-app \
-    --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/example-app-with-datadog \
-    --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
-```
-
 ### コンテナの起動
 
 compose.yaml が存在するディレクトリで以下のコマンドを実行してください。
 
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
 
 ### HTTP リクエストの送信
