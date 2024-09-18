@@ -96,7 +96,7 @@ docker compose down
 
 `.env` ファイルの `DD_API_KEY` に Datadog の API キーを設定してください。
 
-### `terraform.tfvars` の変更
+### `terraform/terraform.tfvars` ファイルの変更
 
 `terraform/terraform.tfvars` ファイルを以下のとおりに変更してください。
 
@@ -162,9 +162,9 @@ docker buildx build . \
 docker push us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example-app-with-datadog-app:latest
 ```
 
-### `manifests.yaml` の変更
+### `k8s/manifests.yaml` ファイルの変更
 
-`terraform apply` コマンドの実行結果をもとに `k8s/manifests.yaml` ファイルを以下のとおりに変更してください。
+`k8s/manifests.yaml` ファイルを以下のとおりに変更してください。
 
 変更箇所には、`# REPLACE ME` というコメントが記載されています。
 
@@ -182,9 +182,7 @@ docker push us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example
 
 ### Kubernetes リソースのデプロイ
 
-`terraform apply` コマンドの実行結果をもとに以下のコマンドを変更してください。
-
-また、`${API-KEY}` には、Datadog の API キーを、`${APP-KEY}` には、Datadog の APP キーを設定してください。
+以下コマンドの `${API-KEY}` を Datadog の API キーに、`${APP-KEY}` を Datadog の APP キーに置き換えてください。
 
 `k8s` ディレクトリで以下のコマンドを実行してください。
 
