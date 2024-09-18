@@ -13,6 +13,10 @@
 - Jenkins コンテナ（ Docker Compose の場合のみ）
 - Cloud SQL for PostgreSQL（ GKE の場合のみ）
 
+後述のコマンドを実行すると、以下アーキテクチャ図のコンテナおよび Google Cloud リソースが作成されます。
+
+コマンドについては、後述の[ビルドと実行（ Docker Compose を使用する場合）](#ビルドと実行--docker-compose-を使用する場合)および[ビルドと実行（ GKE を使用する場合）](#ビルドと実行-gke-を使用する場合)を参照してください。
+
 ## アーキテクチャ （ Docker Compose ）
 
 ![doc/architecture-localhost.drawio.png](doc/architecture-localhost.drawio.png)
@@ -85,7 +89,7 @@ compose.yaml が存在するディレクトリで以下のコマンドを実行�
 docker　compose down
 ```
 
-## ビルドと実行（ GKE を使用する場合）
+## ビルドと実行 （ GKE を使用する場合）
 
 ### 前提条件
 
