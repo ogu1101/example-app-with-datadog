@@ -60,7 +60,7 @@ CI Visibility を有効化するには、手動で [Jenkins への Datadog プ�
 compose.yaml が存在するディレクトリで以下のコマンドを実行してください。
 
 ```bash
-docker-compose up -d --build
+docker　compose up -d --build
 ```
 
 ### HTTP リクエストの送信
@@ -82,7 +82,7 @@ Jenkins にアクセスするためのユーザー名とパスワードは、Jen
 compose.yaml が存在するディレクトリで以下のコマンドを実行してください。
 
 ```bash
-docker-compose down
+docker　compose down
 ```
 
 ## ビルドと実行（ GKE を使用する場合）
@@ -128,34 +128,28 @@ terraform init
 terraform apply
 ```
 
-`terraform apply` コマンド実行時に、以下のような値が出力されます。
+### コマンドとファイルの変更
 
-```bash
-artifact_registry_repository_name = "shuhei-repository"
-cloud_sql_instance_name = "shuhei-cloud-sql"
-global_ip_address_name = "shuhei-ip-address"
-kubernetes_cluster_name = "shuhei-gke"
-project_id = "datadog-sandbox"
-region = "us-central1"
-service_account_id = "shuhei-service-account-id"
-```
+後述のコマンドおよびファイルを以下のとおりに変更してください。
+
+- ${PROJECT_ID} を `terraform/terraform.tfvars` ファイルに記載されている `project_id` の値に置き換えてください。
+- ${REGION} を `terraform/terraform.tfvars` ファイルに記載されている `region` の値に置き換えてください。
+- ${ENV} を `terraform/terraform.tfvars` ファイルに記載されている `env` の値に置き換えてください。
 
 ### アプリケーションコンテナイメージのビルドとプッシュ
-
-`terraform apply` コマンドの実行結果をもとに以下のコマンドを変更してください。
 
 Dockerfile が存在するディレクトリで以下のコマンドを実行してください。
 
 ```bash
-gcloud auth configure-docker ${region}-docker.pkg.dev
+gcloud auth configure-docker ${REGION}-docker.pkg.dev
 
 docker buildx build . \
-    -t ${region}-docker.pkg.dev/${project_id}/${artifact_registry_repository_name}/example-app-with-datadog-app:latest \
+    -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest \
     --platform linux/amd64,linux/arm64 \
     --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/example-app-with-datadog \
     --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
 
-docker push ${region}-docker.pkg.dev/${project_id}/${artifact_registry_repository_name}/example-app-with-datadog-app:latest
+docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest
 ```
 
 コマンドの例は、以下のとおりです。
@@ -181,14 +175,14 @@ docker push us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example
 #### `Deployment` リソース
 
 - `spec.template.spec.containers.name=app` の `image`
-  に `${region}-docker.pkg.dev/${project_id}/${artifact_registry_repository_name}/example-app-with-datadog-app:latest`
+  に `${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest`
   を設定してください。
 - `spec.template.spec.containers.name=cloud-sql-proxy` の `args[2]`
-  に `${project_id}:${region}:${cloud_sql_instance_name}` を設定してください。
+  に `${PROJECT_ID}:${REGION}:${ENV}-cloud-sql` を設定してください。
 
 #### `Ingress` リソース
 
-- `metadata.annotations.kubernetes.io/ingress.global-static-ip-name` に `${global_ip_address_name}` を設定してください。
+- `metadata.annotations.kubernetes.io/ingress.global-static-ip-name` に `${ENV}-ip-address` を設定してください。
 
 ### Kubernetes リソースのデプロイ
 
@@ -199,7 +193,7 @@ docker push us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example
 `k8s` ディレクトリで以下のコマンドを実行してください。
 
 ```bash
-gcloud container clusters get-credentials --zone ${region} ${kubernetes_cluster_name}
+gcloud container clusters get-credentials --zone ${REGION} ${ENV}-gke
 
 helm repo add datadog https://helm.datadoghq.com
 
@@ -211,7 +205,7 @@ kubectl apply -f datadog-agent.yaml -f service-account.yaml
 
 kubectl annotate serviceaccount \
   ksa-cloud-sql  \
-  iam.gke.io/gcp-service-account=${service_account_id}@${project_id}.iam.gserviceaccount.com
+  iam.gke.io/gcp-service-account=${ENV}-service-account-id@${PROJECT_ID}.iam.gserviceaccount.com
 
 kubectl apply -f manifests.yaml
 ```
