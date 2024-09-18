@@ -132,9 +132,9 @@ terraform apply
 
 後述のコマンドおよびファイルを以下のとおりに変更してください。
 
-- ${PROJECT_ID} を `terraform/terraform.tfvars` ファイルに記載されている `project_id` の値に置き換えてください。
-- ${REGION} を `terraform/terraform.tfvars` ファイルに記載されている `region` の値に置き換えてください。
-- ${ENV} を `terraform/terraform.tfvars` ファイルに記載されている `env` の値に置き換えてください。
+- `${PROJECT_ID}` を `terraform/terraform.tfvars` ファイルに記載されている `project_id` の値に置き換えてください。
+- `${REGION}` を `terraform/terraform.tfvars` ファイルに記載されている `region` の値に置き換えてください。
+- `${ENV}` を `terraform/terraform.tfvars` ファイルに記載されている `env` の値に置き換えてください。
 
 ### アプリケーションコンテナイメージのビルドとプッシュ
 
