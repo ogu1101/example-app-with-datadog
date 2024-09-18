@@ -2,26 +2,18 @@
 
 ## 概要
 
-このリポジトリには、Java アプリケーション（ Web サービス）のソースコードが含まれています。
+このリポジトリをクローンし、後述のコマンドを実行すると、以下のコンテナをローカルで実行できます。
 
-そのアプリケーションを Docker Compose または Google Kubernetes Engine（ GKE ）を使用して実行するためのソースコードも含まれています。
+コマンドについては、[ビルドと実行（ローカル）](#ビルドと実行--ローカル-)を参照してください。
 
-また、アプリケーション以外に以下のコンテナおよびサービスも実行されます。
-
+- Java アプリケーション（ Web サービス）コンテナ
 - Datadog Agent コンテナ
-- PostgreSQL コンテナ（ Docker Compose の場合のみ）
-- Jenkins コンテナ（ Docker Compose の場合のみ）
-- Cloud SQL for PostgreSQL（ GKE の場合のみ）
+- PostgreSQL コンテナ
+- Jenkins コンテナ
 
-後述のコマンドを実行すると、以下アーキテクチャ図のコンテナおよび Google Cloud リソースが作成されます。
+また、後述のコマンドを実行すると、以下アーキテクチャ図の Google Cloud リソースが作成され、Java アプリケーションコンテナおよび Datadog Agent コンテナを GKE にデプロイできます。
 
-コマンドについては、後述の[ビルドと実行（ Docker Compose を使用する場合）](#ビルドと実行--docker-compose-を使用する場合)および[ビルドと実行（ GKE を使用する場合）](#ビルドと実行--gke-を使用する場合)を参照してください。
-
-## アーキテクチャ （ Docker Compose ）
-
-![doc/architecture-localhost.drawio.png](doc/architecture-localhost.drawio.png)
-
-## アーキテクチャ （ GKE ）
+コマンドについては、[ビルドと実行（ Google Cloud ）](#ビルドと実行--google-cloud-)を参照してください。
 
 ![doc/architecture-gke.drawio.png](doc/architecture-gke.drawio.png)
 
@@ -43,17 +35,17 @@ CI Visibility を有効化するには、手動で [Jenkins への Datadog プ�
 - Continuous Profiler
 - Log Management（トレースと接続済み）
 - Application Security Management
-- CI Visibility（ Docker Compose の場合のみ）
-- Database Monitoring（トレースと接続済み、Docker Compose の場合のみ）
-- Network Performance Monitoring（ GKE の場合のみ）
-- Universal Service Monitoring（ GKE の場合のみ）
+- CI Visibility（ローカルの場合のみ）
+- Database Monitoring（トレースと接続済み、ローカルの場合のみ）
+- Network Performance Monitoring（ Google Cloud の場合のみ）
+- Universal Service Monitoring（ Google Cloud の場合のみ）
 
-## ビルドと実行 （ Docker Compose を使用する場合）
+## ビルドと実行 （ ローカル ）
 
 ### 前提条件
 
 - Docker をインストールしてください。インストール方法については、こちらの[ドキュメント](https://docs.docker.com/engine/install/)を参照してください。
-- このリポジトリの Datadog Agent コンテナは、Docker Compose を使用する場合、Mac OS でのみ実行可能です。
+- ローカル用の Datadog Agent コンテナは、Mac OS のみで正しく動作する想定です。
 
 ### 事前作業
 
@@ -64,7 +56,7 @@ CI Visibility を有効化するには、手動で [Jenkins への Datadog プ�
 compose.yaml が存在するディレクトリで以下のコマンドを実行してください。
 
 ```bash
-docker　compose up -d --build
+docker compose up -d --build
 ```
 
 ### HTTP リクエストの送信
@@ -86,10 +78,10 @@ Jenkins にアクセスするためのユーザー名とパスワードは、Jen
 compose.yaml が存在するディレクトリで以下のコマンドを実行してください。
 
 ```bash
-docker　compose down
+docker compose down
 ```
 
-## ビルドと実行 （ GKE を使用する場合）
+## ビルドと実行 （ Google Cloud ）
 
 ### 前提条件
 
@@ -240,7 +232,7 @@ NAME   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)          AGE
 app    LoadBalancer   10.187.247.149   35.238.101.70   8080:31303/TCP   38h
 ```
 
-以下コマンドの ${EXTERNAL-IP} を上記の `EXTERNAL-IP` に置換したうえで、以下コマンドを実行してください。
+以下コマンドの `${EXTERNAL-IP}` を上記の `EXTERNAL-IP` に置き換えたうえで、以下コマンドを実行してください。
 
 ```bash
 curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' ${EXTERNAL-IP}:8080/greeting
