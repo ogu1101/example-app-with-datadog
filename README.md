@@ -2,7 +2,13 @@
 
 ## 概要
 
-このリポジトリをクローンし、後述のコマンドを実行すると、以下のコンテナをローカルで実行できます。
+このリポジトリをクローンし、後述の `terraform` コマンドや `kubectl` コマンドなどを実行すると、以下アーキテクチャ図の Google Cloud リソースが作成され、Java アプリケーションコンテナおよび Datadog Agent コンテナを GKE にデプロイできます。
+
+コマンドについては、[ビルドと実行（ Google Cloud ）](#ビルドと実行--google-cloud-)を参照してください。
+
+![doc/architecture-gke.drawio.png](doc/architecture-gke.drawio.png)
+
+また、後述の `docker compose` コマンドなどを実行すると、以下のコンテナをローカルで実行できます。
 
 コマンドについては、[ビルドと実行（ローカル）](#ビルドと実行--ローカル-)を参照してください。
 
@@ -10,12 +16,6 @@
 - Datadog Agent コンテナ
 - PostgreSQL コンテナ
 - Jenkins コンテナ
-
-また、後述のコマンドを実行すると、以下アーキテクチャ図の Google Cloud リソースが作成され、Java アプリケーションコンテナおよび Datadog Agent コンテナを GKE にデプロイできます。
-
-コマンドについては、[ビルドと実行（ Google Cloud ）](#ビルドと実行--google-cloud-)を参照してください。
-
-![doc/architecture-gke.drawio.png](doc/architecture-gke.drawio.png)
 
 ## アプリケーションについて
 
@@ -40,47 +40,6 @@ CI Visibility を有効化するには、手動で [Jenkins への Datadog プ�
 - Network Performance Monitoring（ Google Cloud の場合のみ）
 - Universal Service Monitoring（ Google Cloud の場合のみ）
 
-## ビルドと実行 （ ローカル ）
-
-### 前提条件
-
-- Docker をインストールしてください。インストール方法については、こちらの[ドキュメント](https://docs.docker.com/engine/install/)を参照してください。
-- ローカル用の Datadog Agent コンテナは、Mac OS のみで正しく動作する想定です。
-
-### 事前作業
-
-`.env` ファイルの `DD_API_KEY` に Datadog の API キーを設定してください。
-
-### コンテナの起動
-
-compose.yaml が存在するディレクトリで以下のコマンドを実行してください。
-
-```bash
-docker compose up -d --build
-```
-
-### HTTP リクエストの送信
-
-アプリケーションコンテナに HTTP リクエストを送信するには、以下のコマンドを実行してください。
-
-```bash
-curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' 127.0.0.1:8080/greeting
-```
-
-### Jenkins
-
-Jenkins にアクセスするための URL は、http://localhost:8888 です。
-
-Jenkins にアクセスするためのユーザー名とパスワードは、Jenkins コンテナ起動時のログに出力されます。
-
-### コンテナの停止
-
-compose.yaml が存在するディレクトリで以下のコマンドを実行してください。
-
-```bash
-docker compose down
-```
-
 ## ビルドと実行 （ Google Cloud ）
 
 ### 前提条件
@@ -89,8 +48,8 @@ docker compose down
 - マルチプラットフォームコンテナイメージを作成するために、こちらの[ドキュメント](https://docs.docker.com/desktop/containerd/#turn-on-the-containerd-image-store-feature)を参考に Docker Desktop の `Use containerd for pulling and storing images` を有効化してください。
 - こちらの[ドキュメント](https://helm.sh/ja/)を参考に `Helm` をインストールしてください。
 - こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)を参考に `Terraform` をインストールしてください。
-- その他の前提条件については、こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke?utm_medium=WEB_IO&in=terraform%2Fkubernetes&utm_content=DOCS&utm_source=WEBSITE&utm_offer=ARTICLE_PAGE#prerequisites)を参照してください。
 - こちらの[ドキュメント](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl?hl=ja#install_plugin)を参考に `gke-gcloud-auth-plugin` をインストールしてください。
+- その他の前提条件については、こちらの[ドキュメント](https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke?utm_medium=WEB_IO&in=terraform%2Fkubernetes&utm_content=DOCS&utm_source=WEBSITE&utm_offer=ARTICLE_PAGE#prerequisites)を参照してください。
 
 ### 事前作業
 
@@ -134,7 +93,7 @@ terraform apply
 
 ### アプリケーションコンテナイメージのビルドとプッシュ
 
-Dockerfile が存在するディレクトリで以下のコマンドを実行してください。
+`Dockerfile` が存在するディレクトリで以下のコマンドを実行してください。
 
 ```bash
 gcloud auth configure-docker ${REGION}-docker.pkg.dev
@@ -256,6 +215,47 @@ kubectl delete -f manifests.yaml -f service-account.yaml -f datadog-agent.yaml
 
 ```bash
 terraform destroy
+```
+
+## ビルドと実行 （ ローカル ）
+
+### 前提条件
+
+- Docker をインストールしてください。インストール方法については、こちらの[ドキュメント](https://docs.docker.com/engine/install/)を参照してください。
+- ローカル用の Datadog Agent コンテナは、Mac OS のみで正しく動作する想定です。
+
+### 事前作業
+
+`.env` ファイルの `DD_API_KEY` に Datadog の API キーを設定してください。
+
+### コンテナの起動
+
+`compose.yaml` が存在するディレクトリで以下のコマンドを実行してください。
+
+```bash
+docker compose up -d --build
+```
+
+### HTTP リクエストの送信
+
+アプリケーションコンテナに HTTP リクエストを送信するには、以下のコマンドを実行してください。
+
+```bash
+curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' 127.0.0.1:8080/greeting
+```
+
+### Jenkins
+
+Jenkins にアクセスするための URL は、http://localhost:8888 です。
+
+Jenkins にアクセスするためのユーザー名とパスワードは、Jenkins コンテナ起動時のログに出力されます。
+
+### コンテナの停止
+
+`compose.yaml` が存在するディレクトリで以下のコマンドを実行してください。
+
+```bash
+docker compose down
 ```
 
 ## References
