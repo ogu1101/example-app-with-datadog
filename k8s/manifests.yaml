@@ -26,7 +26,7 @@ spec:
       containers:
         - name: app
           # REPLACE ME
-          image: us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example-app-with-datadog-app:latest
+          image: us-central1-docker.pkg.dev/tribal-iridium-308123/shuhei-repository/example-app-with-datadog-app:latest
           ports:
             - containerPort: 8080
           env:
@@ -60,7 +60,7 @@ spec:
 
             - "--port=5432"
             # REPLACE ME
-            - "datadog-sandbox:us-central1:shuhei-cloud-sql"
+            - "tribal-iridium-308123:us-central1:shuhei-cloud-sql"
 
           securityContext:
             runAsNonRoot: true

@@ -1,4 +1,4 @@
-project_id             = "datadog-sandbox"
+project_id             = "tribal-iridium-308123"
 region                 = "us-central1"
 env                    = "shuhei"
-your_global_ip_address = "58.89.13.222"
+your_global_ip_address = "219.167.10.143"

@@ -91,6 +91,8 @@ terraform apply
 - `${REGION}` を `terraform/terraform.tfvars` ファイルに記載されている `region` の値に置き換えてください。
 - `${ENV}` を `terraform/terraform.tfvars` ファイルに記載されている `env` の値に置き換えてください。
 
+コマンドの例については、`example-command.sh` を参照してください。
+
 ### アプリケーションコンテナイメージのビルドとプッシュ
 
 `Dockerfile` が存在するディレクトリで以下のコマンドを実行してください。
@@ -107,37 +109,15 @@ docker buildx build . \
 docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest
 ```
 
-コマンドの例は、以下のとおりです。
-
-```bash
-gcloud auth configure-docker us-central1-docker.pkg.dev
-
-docker buildx build . \
-    -t us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example-app-with-datadog-app:latest \
-    --platform linux/amd64,linux/arm64 \
-    --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/example-app-with-datadog \
-    --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
-
-docker push us-central1-docker.pkg.dev/datadog-sandbox/shuhei-repository/example-app-with-datadog-app:latest
-```
-
 ### `k8s/manifests.yaml` ファイルの変更
 
 `k8s/manifests.yaml` ファイルを以下のとおりに変更してください。
 
-変更箇所には、`# REPLACE ME` というコメントが記載されています。
+変更が必要な箇所には、`# REPLACE ME` というコメントが記載されています。
 
-#### `Deployment` リソース
-
-- `spec.template.spec.containers.name=app` の `image`
-  に `${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest`
-  を設定してください。
-- `spec.template.spec.containers.name=cloud-sql-proxy` の `args[2]`
-  に `${PROJECT_ID}:${REGION}:${ENV}-cloud-sql` を設定してください。
-
-#### `Ingress` リソース
-
-- `metadata.annotations.kubernetes.io/ingress.global-static-ip-name` に `${ENV}-ip-address` を設定してください。
+- `image: us-central1-docker.pkg.dev/tribal-iridium-308123/shuhei-repository/example-app-with-datadog-app:latest` を `image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest` に置き換えてください。
+- `- "tribal-iridium-308123:us-central1:shuhei-cloud-sql"` を `- "${PROJECT_ID}:${REGION}:${ENV}-cloud-sql"` に置き換えてください。
+- `kubernetes.io/ingress.global-static-ip-name: shuhei-ip-address` を `kubernetes.io/ingress.global-static-ip-name: ${ENV}-ip-address` に置き換えてください。
 
 ### Kubernetes リソースのデプロイ
 
@@ -163,20 +143,6 @@ kubectl annotate serviceaccount \
 kubectl apply -f manifests.yaml
 ```
 
-`gcloud container clusters get-credentials` コマンドの例は、以下のとおりです。
-
-```bash
-gcloud container clusters get-credentials --zone us-central1 shuhei-gke
-```
-
-`kubectl annotate serviceaccount` コマンドの例は、以下のとおりです。
-
-```bash
-kubectl annotate serviceaccount \
-  ksa-cloud-sql  \
-  iam.gke.io/gcp-service-account=shuhei-service-account-id@datadog-sandbox.iam.gserviceaccount.com
-```
-
 ### HTTP リクエストの送信
 
 リクエスト送信先のグローバル IP アドレスを確認するために、`kubectl get service app` コマンドを実行してください。
@@ -193,12 +159,6 @@ app    LoadBalancer   10.187.247.149   35.238.101.70   8080:31303/TCP   38h
 
 ```bash
 curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' ${EXTERNAL-IP}:8080/greeting
-```
-
-コマンドの例は、以下のとおりです。
-
-```bash
-curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' 35.238.101.70:8080/greeting
 ```
 
 ### Kubernetes リソースの削除
@@ -221,7 +181,7 @@ terraform destroy
 
 ### 前提条件
 
-- Docker をインストールしてください。インストール方法については、こちらの[ドキュメント](https://docs.docker.com/engine/install/)を参照してください。
+- こちらの[ドキュメント](https://docs.docker.com/engine/install/)を参考に Docker をインストールしてください。
 - ローカル用の Datadog Agent コンテナは、Mac OS のみで正しく動作する想定です。
 
 ### 事前作業
