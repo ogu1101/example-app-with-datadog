@@ -81,6 +81,7 @@ gcloud services enable sqladmin.googleapis.com
 
 ```bash
 terraform init
+
 terraform apply
 ```
 
