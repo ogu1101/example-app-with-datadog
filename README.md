@@ -68,10 +68,11 @@ CI Visibility を有効化するには、手動で [Jenkins への Datadog プ�
 任意のディレクトリで以下のコマンドを実行してください。
 
 ```bash
-gcloud services enable \
-    artifactregistry.googleapis.com \
-    container.googleapis.com \
-    sqladmin.googleapis.com
+gcloud services enable artifactregistry.googleapis.com
+
+gcloud services enable container.googleapis.com
+
+gcloud services enable sqladmin.googleapis.com
 ```
 
 ### Google Cloud リソースの作成

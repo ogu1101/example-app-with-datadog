@@ -1,10 +1,9 @@
 #!/bin/bash
 
 # 各種 Google Cloud API の有効化
-gcloud services enable \
-    artifactregistry.googleapis.com \
-    container.googleapis.com \
-    sqladmin.googleapis.com
+gcloud services enable artifactregistry.googleapis.com
+gcloud services enable container.googleapis.com
+gcloud services enable sqladmin.googleapis.com
 
 # Google Cloud リソースの作成
 cd terraform || exit
