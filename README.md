@@ -103,12 +103,12 @@ terraform apply
 gcloud auth configure-docker ${REGION}-docker.pkg.dev
 
 docker buildx build . \
-    -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest \
+    -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on-gke-with-datadog:latest \
     --platform linux/amd64,linux/arm64 \
     --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/java-app-on-gke-with-datadog \
     --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
 
-docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest
+docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on-gke-with-datadog:latest
 ```
 
 ### `k8s/manifests.yaml` ファイルの変更
@@ -117,7 +117,7 @@ docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app
 
 変更が必要な箇所には、`# REPLACE ME` というコメントが記載されています。
 
-- `image: us-central1-docker.pkg.dev/tribal-iridium-308123/shuhei-repository/example-app-with-datadog-app:latest` を `image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest` に置き換えてください。
+- `image: us-central1-docker.pkg.dev/tribal-iridium-308123/shuhei-repository/java-app-on-gke-with-datadog:latest` を `image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on-gke-with-datadog:latest` に置き換えてください。
 - `- "tribal-iridium-308123:us-central1:shuhei-cloud-sql"` を `- "${PROJECT_ID}:${REGION}:${ENV}-cloud-sql"` に置き換えてください。
 - `kubernetes.io/ingress.global-static-ip-name: shuhei-ip-address` を `kubernetes.io/ingress.global-static-ip-name: ${ENV}-ip-address` に置き換えてください。
 

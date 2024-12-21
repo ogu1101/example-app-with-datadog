@@ -14,11 +14,11 @@ terraform apply
 cd ..
 gcloud auth configure-docker us-central1-docker.pkg.dev
 docker buildx build . \
-    -t us-central1-docker.pkg.dev/tribal-iridium-308123/shuhei-repository/example-app-with-datadog-app:latest \
+    -t us-central1-docker.pkg.dev/tribal-iridium-308123/shuhei-repository/java-app-on-gke-with-datadog:latest \
     --platform linux/amd64,linux/arm64 \
     --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/example-app-with-datadog \
     --build-arg DD_GIT_COMMIT_SHA="$(git rev-parse HEAD)"
-docker push us-central1-docker.pkg.dev/tribal-iridium-308123/shuhei-repository/example-app-with-datadog-app:latest
+docker push us-central1-docker.pkg.dev/tribal-iridium-308123/shuhei-repository/java-app-on-gke-with-datadog:latest
 
 # Kubernetes リソースのデプロイ
 cd k8s || exit
