@@ -105,7 +105,7 @@ gcloud auth configure-docker ${REGION}-docker.pkg.dev
 docker buildx build . \
     -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest \
     --platform linux/amd64,linux/arm64 \
-    --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/example-app-with-datadog \
+    --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/java-app-on-gke-with-datadog \
     --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
 
 docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/example-app-with-datadog-app:latest
