@@ -70,6 +70,8 @@ CI Visibility を有効化するには、手動で [Jenkins への Datadog プ�
 ```bash
 gcloud services enable artifactregistry.googleapis.com
 
+gcloud services enable compute.googleapis.com
+
 gcloud services enable container.googleapis.com
 
 gcloud services enable sqladmin.googleapis.com
@@ -102,11 +104,7 @@ terraform apply
 ```bash
 gcloud auth configure-docker ${REGION}-docker.pkg.dev
 
-docker buildx build . \
-    -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on-gke-with-datadog:latest \
-    --platform linux/amd64,linux/arm64 \
-    --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/java-app-on-gke-with-datadog \
-    --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
+docker buildx build . -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on-gke-with-datadog:latest --platform linux/amd64,linux/arm64 --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/java-app-on-gke-with-datadog --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
 
 docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on-gke-with-datadog:latest
 ```
@@ -123,7 +121,7 @@ docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on
 
 ### Kubernetes リソースのデプロイ
 
-以下コマンドの `${API-KEY}` を Datadog の API キーに、`${APP-KEY}` を Datadog の APP キーに置き換えてください。
+以下コマンドの `${API-KEY}` を Datadog の API キーに置き換えてください。
 
 `k8s` ディレクトリで以下のコマンドを実行してください。
 
@@ -132,15 +130,15 @@ gcloud container clusters get-credentials --zone ${REGION} ${ENV}-gke
 
 helm repo add datadog https://helm.datadoghq.com
 
-helm install datadog-operator datadog/datadog-operator
+helm repo update
 
-kubectl create secret generic datadog-secret --from-literal api-key=${API-KEY} --from-literal app-key=${APP-KEY}
+kubectl create secret generic datadog-secret --from-literal api-key=${API-KEY}
 
-kubectl apply -f datadog-agent.yaml -f service-account.yaml
+helm install datadog-agent -f datadog-values.yaml datadog/datadog
 
-kubectl annotate serviceaccount \
-  ksa-cloud-sql  \
-  iam.gke.io/gcp-service-account=${ENV}-service-account-id@${PROJECT_ID}.iam.gserviceaccount.com
+kubectl apply -f service-account.yaml
+
+kubectl annotate serviceaccount ksa-cloud-sql iam.gke.io/gcp-service-account=${ENV}-service-account-id@${PROJECT_ID}.iam.gserviceaccount.com
 
 kubectl apply -f manifests.yaml
 ```
@@ -168,7 +166,9 @@ curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "targ
 `k8s` ディレクトリで以下のコマンドを実行してください。
 
 ```bash
-kubectl delete -f manifests.yaml -f service-account.yaml -f datadog-agent.yaml
+kubectl delete -f manifests.yaml -f service-account.yaml
+
+helm uninstall datadog-agent
 ```
 
 ### Google Cloud リソースの削除

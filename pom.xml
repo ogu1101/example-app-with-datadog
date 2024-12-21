@@ -13,7 +13,7 @@
 
     <!-- Project Information -->
     <groupId>com.example</groupId>
-    <artifactId>example-app-with-datadog</artifactId>
+    <artifactId>java-app-on-gke-with-datadog</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>

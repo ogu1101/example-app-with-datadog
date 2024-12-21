@@ -30,7 +30,7 @@ ENV DD_AGENT_HOST="datadog-agent" \
     DD_TRACE_AGENT_PORT="8126"
 
 # Copy JAR file and Datadog Java Agent from the build stage
-COPY --from=build /app/target/example-app-with-datadog-0.0.1-SNAPSHOT.jar /app.jar
+COPY --from=build /app/target/java-app-on-gke-with-datadog-0.0.1-SNAPSHOT.jar /app.jar
 COPY --from=build /app/dd-java-agent.jar /dd-java-agent.jar
 
 # Set the command to run the application

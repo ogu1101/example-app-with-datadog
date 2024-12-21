@@ -1,0 +1,16 @@
+datadog:
+  apiKeyExistingSecret: datadog-secret
+  site: datadoghq.com
+  collectEvents: true
+  networkMonitoring:
+    enabled: true
+  logs:
+    enabled: true
+    containerCollectAll: true
+  processAgent:
+    enabled: true
+    processCollection: true
+clusterAgent:
+  enabled: true
+  rbac: 
+    create: true

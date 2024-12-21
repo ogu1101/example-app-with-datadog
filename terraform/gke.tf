@@ -15,7 +15,7 @@ variable "gke_num_nodes" {
 
 data "google_container_engine_versions" "gke_version" {
   location       = var.region
-  version_prefix = "1.28."
+  version_prefix = "1.30."
 }
 
 resource "google_container_cluster" "primary" {
