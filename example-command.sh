@@ -31,4 +31,4 @@ kubectl apply -f manifests.yaml
 
 # HTTP リクエストの送信
 kubectl get service app
-curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' 35.238.241.152:8080/greeting
+curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "target":"Kagetaka"}' 35.238.101.70:8080/greeting
