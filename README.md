@@ -104,7 +104,7 @@ terraform apply
 ```bash
 gcloud auth configure-docker ${REGION}-docker.pkg.dev
 
-docker buildx build . -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on-gke-with-datadog:latest --platform linux/amd64,linux/arm64 --build-arg DD_GIT_REPOSITORY_URL=github.com/ogu1101/java-app-on-gke-with-datadog --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
+docker buildx build . -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on-gke-with-datadog:latest --platform linux/amd64,linux/arm64 --build-arg DD_GIT_REPOSITORY_URL=$(git config --get remote.origin.url) --build-arg DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)
 
 docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ENV}-repository/java-app-on-gke-with-datadog:latest
 ```
@@ -130,13 +130,11 @@ gcloud container clusters get-credentials --zone ${REGION} ${ENV}-gke
 
 helm repo add datadog https://helm.datadoghq.com
 
-helm repo update
+helm install datadog-operator datadog/datadog-operator
 
 kubectl create secret generic datadog-secret --from-literal api-key=${API-KEY}
 
-helm install datadog-agent -f datadog-values.yaml datadog/datadog
-
-kubectl apply -f service-account.yaml
+kubectl apply -f datadog-agent.yaml -f service-account.yaml
 
 kubectl annotate serviceaccount ksa-cloud-sql iam.gke.io/gcp-service-account=${ENV}-service-account-id@${PROJECT_ID}.iam.gserviceaccount.com
 
@@ -168,7 +166,9 @@ curl -v -X POST -H 'Content-Type:application/json' -d '{"message":"Hello", "targ
 ```bash
 kubectl delete -f manifests.yaml -f service-account.yaml
 
-helm uninstall datadog-agent
+kubectl delete datadogagent datadog
+
+helm delete datadog-operator
 ```
 
 ### Google Cloud リソースの削除
